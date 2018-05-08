@@ -56,7 +56,7 @@ class DefaultGosuSourceSetTest extends Specification {
         }
         
         then:
-        expect sourceSet.gosu.srcDirs, equalTo([new File(_testProjectDir.root, 'src/somepathtogosu').canonicalFile] as Set)
+        expect sourceSet.gosu.srcDirs, equalTo([new File(_testProjectDir.root, 'src/somepathtogosu').absoluteFile] as Set)
     }
 
     def 'can configure Gosu source using an action'() {
@@ -64,7 +64,7 @@ class DefaultGosuSourceSetTest extends Specification {
         sourceSet.gosu({ set -> set.srcDir 'src/somepathtogosu' } as Action<SourceDirectorySet>)
         
         then:
-        expect sourceSet.gosu.srcDirs, equalTo([new File(_testProjectDir.root, 'src/somepathtogosu').canonicalFile] as Set)
+        expect sourceSet.gosu.srcDirs, equalTo([new File(_testProjectDir.root, 'src/somepathtogosu').absoluteFile] as Set)
     }
     
     def 'can exclude a file pattern'() {
