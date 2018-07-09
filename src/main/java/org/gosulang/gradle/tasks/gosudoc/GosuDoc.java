@@ -40,7 +40,7 @@ public class GosuDoc extends SourceTask implements InfersGosuRuntime {
   public FileTree getSource() {
     return super.getSource();
   }
-  
+
   /**
    * Returns the target directory to generate the API documentation.
    * @return the target directory to generate the API documentation.
@@ -118,6 +118,10 @@ public class GosuDoc extends SourceTask implements InfersGosuRuntime {
     if (options.getTitle() != null && !options.getTitle().isEmpty()) {
       options.setTitle(getTitle());
     }
+    execute(options);
+  }
+
+  protected void execute(GosuDocOptions options) {
     new CommandLineGosuDoc(getSource(), getDestinationDir(), getGosuClasspath().call(), getClasspath(), options, getProject()).execute();
   }
 }
