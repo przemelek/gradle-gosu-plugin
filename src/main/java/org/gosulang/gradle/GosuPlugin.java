@@ -36,14 +36,14 @@ public class GosuPlugin implements Plugin<Project> {
     SourceSet test = pluginConvention.getSourceSets().getByName(SourceSet.TEST_SOURCE_SET_NAME);
 
     test.setRuntimeClasspath(project.files(
-        test.getOutput(),
-        main.getOutput(),
-        project.getConfigurations().getByName(JavaPlugin.TEST_RUNTIME_CONFIGURATION_NAME),
-        gosuRuntime.inferGosuClasspath(project.getConfigurations().getByName(JavaPlugin.TEST_COMPILE_CONFIGURATION_NAME))));
+            test.getOutput(),
+            main.getOutput(),
+            project.getConfigurations().getByName(JavaPlugin.TEST_RUNTIME_CONFIGURATION_NAME),
+            gosuRuntime.inferGosuClasspath(project.getConfigurations().getByName(JavaPlugin.TEST_COMPILE_CONFIGURATION_NAME))));
   }
 
   private void configureGosuDoc( final Project project ) {
-    GosuDoc gosuDoc = project.getTasks().create(GOSUDOC_TASK_NAME, GosuDoc.class);
+    GosuDoc gosuDoc = createGosuDocTask(project);
     gosuDoc.setDescription("Generates Gosudoc API documentation for the main source code.");
     gosuDoc.setGroup(JavaBasePlugin.DOCUMENTATION_GROUP);
 
@@ -55,6 +55,10 @@ public class GosuPlugin implements Plugin<Project> {
     GosuSourceSet gosuSourceSet = sourceSetConvention.getPlugin(GosuSourceSet.class);
 
     gosuDoc.setSource((Object) gosuSourceSet.getGosu());  // Gradle 4.0 overloads setSource; must upcast to Object for backwards compatibility
+  }
+
+  protected GosuDoc createGosuDocTask(Project project) {
+    return project.getTasks().create(GOSUDOC_TASK_NAME, GosuDoc.class);
   }
 
 }
